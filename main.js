@@ -33,8 +33,12 @@ function getAdTimeLeftInMs(adTimerNode) {
     return (((minutes * 60) + seconds) * 1000);
 }
 
-
 async function replaceAd(time, webPlayerNode) {
+    // Mute
+    document.querySelectorAll('audio, video').forEach(i => {
+        i.muted = true;
+    });
+
     // Create temporary overlay and style
     overlay = document.createElement('div');
     overlay.style.zIndex = 9999;
@@ -53,6 +57,9 @@ async function replaceAd(time, webPlayerNode) {
     await sleep(time-500);
 
     // Return to normal
+    document.querySelectorAll('audio, video').forEach(i => {
+        i.muted = false;
+    });
     webPlayerNode.id = 'dv-web-player';
     document.body.removeChild(overlay);
 }
