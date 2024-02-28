@@ -44,7 +44,7 @@ async function replaceAd(time, webPlayerNode) {
 
     // Create temporary overlay and style
     overlay = document.createElement('div');
-    overlay.style.zIndex = 9999;
+    overlay.style.zIndex = 2147483647;
     overlay.style.position = 'absolute';
     overlay.style.top = 0;
     overlay.style.left = 0;
@@ -54,11 +54,18 @@ async function replaceAd(time, webPlayerNode) {
     overlay.style.color = 'white';
     overlay.style.textAlign = 'center';
     overlay.style.fontSize = '24px';
-    overlay.style.paddingTop = '25px';
+    overlay.style.paddingTop = '100px';
 
     // Mount overlay and remove player so it cant be interacted with 
     document.body.appendChild(overlay);
     webPlayerNode.id = 'amazon-ads-suck';
+
+    // exit fullscreen if we where in fullscreen
+    let fullscreen = false;
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+        fullscreen = true;
+    }
 
     let overlayTime = time;
     const updateOverlayText = setInterval(() => {
@@ -74,6 +81,7 @@ async function replaceAd(time, webPlayerNode) {
     document.querySelectorAll('audio, video').forEach(i => {
         i.muted = false;
     });
+    if (fullscreen) { document.documentElement.requestFullscreen(); }
     webPlayerNode.id = 'dv-web-player';
     document.body.removeChild(overlay);
 }
