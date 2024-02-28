@@ -3,6 +3,9 @@
  * hopefully we can find a way to circumvent the ad entirely
  */
 
+// TODO: Clean this up and refactor
+// This code is really hacky until I get a working MVP.
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Listens for ad popup and then returns relevant nodes
@@ -30,7 +33,7 @@ function getAdTimeLeftInMs(adTimerNode) {
     const minutes = parseInt(minutesText.split('minutes')[0]);
     const seconds = parseInt(secondsText.split('seconds')[0]);
 
-    return (((minutes * 60) + seconds) * 1000);
+    return (((minutes * 60) + seconds) * 1000)-500;
 }
 
 async function replaceAd(time, webPlayerNode) {
@@ -48,13 +51,21 @@ async function replaceAd(time, webPlayerNode) {
     overlay.style.minWidth = '100%';
     overlay.style.minHeight = '100%';
     overlay.style.backgroundColor = 'black';
-    overlay.innerText = 'Hey there :)';
     overlay.style.color = 'white';
 
     // Mount overlay and remove player so it cant be interacted with 
     document.body.appendChild(overlay);
     webPlayerNode.id = 'amazon-ads-suck';
-    await sleep(time-500);
+
+    let overlayTime = time;
+    const updateOverlayText = setInterval(() => {
+        const seconds = (overlayTime / 1000).toFixed(0);
+        overlay.innerText = `${seconds} seconds left.`;
+        overlayTime = overlayTime-1000;
+    }, 1000);
+
+    await sleep(time);
+    clearInterval(updateOverlayText);
 
     // Return to normal
     document.querySelectorAll('audio, video').forEach(i => {
@@ -65,7 +76,6 @@ async function replaceAd(time, webPlayerNode) {
 }
 
 (async () => {
-    // TODO: Surely there is a better way than to just loop...
     while (true) {
         const [adTimerNode, webPlayerNode] = await mount();
         const adTimeMs = getAdTimeLeftInMs(adTimerNode);
