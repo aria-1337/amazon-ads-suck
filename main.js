@@ -52,6 +52,9 @@ async function replaceAd(time, webPlayerNode) {
     overlay.style.minHeight = '100%';
     overlay.style.backgroundColor = 'black';
     overlay.style.color = 'white';
+    overlay.style.textAlign = 'center';
+    overlay.style.fontSize = '24px';
+    overlay.style.paddingTop = '25px';
 
     // Mount overlay and remove player so it cant be interacted with 
     document.body.appendChild(overlay);
@@ -60,7 +63,7 @@ async function replaceAd(time, webPlayerNode) {
     let overlayTime = time;
     const updateOverlayText = setInterval(() => {
         const seconds = (overlayTime / 1000).toFixed(0);
-        overlay.innerText = `${seconds} seconds left.`;
+        overlay.innerText = `Enjoy the break, Back in: ${seconds}s`;
         overlayTime = overlayTime-1000;
     }, 1000);
 
