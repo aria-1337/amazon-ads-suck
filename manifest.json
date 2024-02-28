@@ -6,7 +6,7 @@
   },
   "content_scripts": [{
     "matches": ["https://*.amazon.com/*"],
-    "js": ["main.js"]
+    "js": ["content.js"]
   }],
   "name": "Amazon Ads Suck",
   "version": "0.0.1",

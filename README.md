@@ -15,6 +15,5 @@ then it should be in your extensions!
 - Doesn't re-enter fullscreen, this is kinda tricky and the only potential fix would be to switch it from an extension to an app...
 
 ### Things id like to do
-- Fix the spaghetti code
 - Add a feature to upload/set some kind of content during the ad breaks
 - See if its possible to truly skip ads

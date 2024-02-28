@@ -1,28 +1,12 @@
-/* Amazon Ads Suck - V1
- * Just replaces the ad with something more pleasent.
- * hopefully we can find a way to circumvent the ad entirely
- */
-
-// TODO: Clean this up and refactor
-// This code is really hacky until I get a working MVP.
-
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Listens for ad popup and then returns relevant nodes
-async function mount() {
-    // Listen for ad timer
+async function nodesMounted() {
     const adTimerNode = document.getElementsByClassName('atvwebplayersdk-ad-timer')[0];
-
-    if (!adTimerNode) {
-        await sleep(500);
-        return await mount();
-    }
-
     const webPlayerNode = document.getElementById('dv-web-player');
 
-    if (!webPlayerNode) {
-        await sleep(500);
-        return await mount();
+    if (!adTimerNode || !webPlayerNode) {
+        await sleep(250);
+        return await nodesMounted();
     }
 
     return [adTimerNode, webPlayerNode];
@@ -36,14 +20,8 @@ function getAdTimeLeftInMs(adTimerNode) {
     return (((minutes * 60) + seconds) * 1000)-500;
 }
 
-async function replaceAd(time, webPlayerNode) {
-    // Mute
-    document.querySelectorAll('audio, video').forEach(i => {
-        i.muted = true;
-    });
-
-    // Create temporary overlay and style
-    overlay = document.createElement('div');
+function getOverlay() {
+    const overlay = document.createElement('div');
     overlay.style.zIndex = 9999;
     overlay.style.position = 'absolute';
     overlay.style.top = '0px';
@@ -55,19 +33,25 @@ async function replaceAd(time, webPlayerNode) {
     overlay.style.textAlign = 'center';
     overlay.style.fontSize = '44px';
     overlay.style.paddingTop = '300px';
+    return overlay;
+}
 
+async function replaceAd(time, webPlayerNode) {
+    // Mute ad
+    document.querySelectorAll('audio, video').forEach(i => {i.muted = true; });
 
     // Mount overlay and remove player so it cant be interacted with 
+    const overlay = getOverlay();
     document.body.appendChild(overlay);
     overlay.scrollIntoView();
     webPlayerNode.id = 'amazon-ads-suck';
 
+    // Leave fullscreen
     if (document.fullscreenElement) { document.exitFullscreen(); }
 
     let overlayTime = time;
     const updateOverlayText = setInterval(() => {
-        const seconds = (overlayTime / 1000).toFixed(0);
-        overlay.innerText = `Enjoy the break, Back in: ${seconds}s`;
+        overlay.innerText = `Enjoy the break, Back in: ${(overlayTime / 1000).toFixed(0)}s`;
         overlayTime = overlayTime-1000;
     }, 1000);
 
@@ -75,16 +59,14 @@ async function replaceAd(time, webPlayerNode) {
     clearInterval(updateOverlayText);
 
     // Return to normal
-    document.querySelectorAll('audio, video').forEach(i => {
-        i.muted = false;
-    });
+    document.querySelectorAll('audio, video').forEach(i => { i.muted = false; });
     webPlayerNode.id = 'dv-web-player';
     document.body.removeChild(overlay);
 }
 
 (async () => {
     while (true) {
-        const [adTimerNode, webPlayerNode] = await mount();
+        const [adTimerNode, webPlayerNode] = await nodesMounted();
         const adTimeMs = getAdTimeLeftInMs(adTimerNode);
         await replaceAd(adTimeMs, webPlayerNode);
         await sleep(1000);
