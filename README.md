@@ -1,8 +1,16 @@
 # amazon-ads-suck
-We pay for prime we don't pay for ads :) (also amazon will still get advertiser money anyways)
+v1 of amazon prime video "adblocker". replaces ads with a simple blackscreen and a countdown of time remaining. (as well as mutes)
 
-This is a chrome extenstion that automatically "skips" over the ads.
+### Install it locally:
 
-Eventually I would like to find a exploit to actually circumvent them but in v1 we are just having a much more pleasent overaly and muting the audio.
+I will publish it to chrome but they have to approve it. in the meantime you can do the following:
 
-Feel free to contribute! 
+1) clone this repo
+2) go to `chrome://extensions` in your chrome browser
+3) in the upper right toggle `Developer mode`
+4) select the `load unpacked` button in the upper left
+then it should be in your extensions! 
+
+Feature development:
+- Ability to add your own content to overlay during ads
+- Actually circumvent the ad (this may not be possible)
