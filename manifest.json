@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "action": {
+      "default_popup": "root.html",
+      "default_icon": "icon.png"
+  },
+  "content_scripts": [{
+    "matches": ["https://*.amazon.com/*"],
+    "js": ["main.js"]
+  }],
+  "name": "Amazon Ads Suck",
+  "version": "0.0.1",
+  "permissions": ["activeTab"]
+}
