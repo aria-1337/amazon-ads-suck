@@ -33,15 +33,37 @@ function getAdTimeLeftInMs(adTimerNode) {
     return (((minutes * 60) + seconds) * 1000);
 }
 
+
 async function replaceAd(time, webPlayerNode) {
-    console.log(time);
+    // Create temporary overlay and style
+    overlay = document.createElement('div');
+    overlay.style.zIndex = 9999;
+    overlay.style.position = 'absolute';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.minWidth = '100%';
+    overlay.style.minHeight = '100%';
+    overlay.style.backgroundColor = 'black';
+    overlay.innerText = 'Hey there :)';
+    overlay.style.color = 'white';
+
+    // Mount overlay and remove player so it cant be interacted with 
+    document.body.appendChild(overlay);
     webPlayerNode.id = 'amazon-ads-suck';
     await sleep(time-500);
+
+    // Return to normal
     webPlayerNode.id = 'dv-web-player';
+    document.body.removeChild(overlay);
 }
 
 (async () => {
-    const [adTimerNode, webPlayerNode] = await mount();
-    const adTimeMs = getAdTimeLeftInMs(adTimerNode);
-    await replaceAd(adTimeMs, webPlayerNode);
+    // TODO: Surely there is a better way than to just loop...
+    // Although this only runs on amazon.com
+    while (true) {
+        const [adTimerNode, webPlayerNode] = await mount();
+        const adTimeMs = getAdTimeLeftInMs(adTimerNode);
+        await replaceAd(adTimeMs, webPlayerNode);
+        await sleep(1000);
+    }
 })();
