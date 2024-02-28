@@ -8,7 +8,8 @@ I will publish it to chrome but they have to approve it. in the meantime you can
 1) clone this repo
 2) go to `chrome://extensions` in your chrome browser
 3) in the upper right toggle `Developer mode`
-4) select the `load unpacked` button in the upper left
+4) select the `load unpacked` button in the upper left and select the cloned repo folder
+
 then it should be in your extensions! 
 
 Feature development:
