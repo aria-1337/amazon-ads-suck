@@ -66,7 +66,6 @@ async function replaceAd(time, webPlayerNode) {
 
 (async () => {
     // TODO: Surely there is a better way than to just loop...
-    // Although this only runs on amazon.com
     while (true) {
         const [adTimerNode, webPlayerNode] = await mount();
         const adTimeMs = getAdTimeLeftInMs(adTimerNode);
