@@ -11,6 +11,10 @@ I will publish it to chrome but they have to approve it. in the meantime you can
 4) select the `load unpacked` button in the upper left
 then it should be in your extensions! 
 
-Feature development:
-- Ability to add your own content to overlay during ads
-- Actually circumvent the ad (this may not be possible)
+### Known bugs
+- Doesn't re-enter fullscreen, this is kinda tricky and the only potential fix would be to switch it from an extension to an app...
+
+### Things id like to do
+- Fix the spaghetti code
+- Add a feature to upload/set some kind of content during the ad breaks
+- See if its possible to truly skip ads
