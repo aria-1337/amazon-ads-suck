@@ -13,8 +13,8 @@ then it should be in your extensions!
 
 ### Known bugs
 - Doesn't re-enter fullscreen, this is kinda tricky and the only potential fix would be to switch it from an extension to an app...
-- Stuff gets wacky when you attempt navigation during the ad break
 
 ### Things id like to do
+- Pause/play buttons during the ad break
 - Add a feature to upload/set some kind of content during the ad breaks
 - See if its possible to truly skip ads
