@@ -72,3 +72,40 @@ async function replaceAd(time, webPlayerNode) {
         await sleep(1000);
     }
 })();
+
+async function mockPlayEvent() {
+    let response = await fetch(
+        `https://atv-ps.amazon.com/cdp/usage/UpdateStream
+         ?deviceID=${deviceID}
+         &deviceTypeID=${deviceTypeID}
+         &gascEnabled=${false}
+         &marketplaceID=${marketplaceID}
+         &uxLocale=en_US
+         &firmware=1
+         &version=1
+         &titleId=${titleId}
+         &event=PLAY
+         &userWatchSessionId=${userWatchSessionId}
+         &timecode=${timecode}
+         &tuneInTimeEpoch=${tuneInTimeEpoch}`,
+        {
+            method: 'POST',
+        }
+    );
+    response = await response.json();
+    console.log(response);
+}
+
+(async () => {
+  const rawResponse = await fetch('https://httpbin.org/post', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({a: 1, b: 'Textual content'})
+  });
+  const content = await rawResponse.json();
+
+  console.log(content);
+})();
